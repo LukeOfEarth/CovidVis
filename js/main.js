@@ -41,7 +41,7 @@ async function graphGlobal(){
         data: {
             labels: ['Confirmed', 'Recovered', 'Deaths','Active'],
             datasets: [{
-                label: 'Global Covid-19 Case Statistics',
+                label: 'Global COVID-19 Case Statistics',
                 data: [global.TotalConfirmed, global.TotalRecovered, global.TotalDeaths,(global.TotalConfirmed-(global.TotalRecovered+global.TotalDeaths))],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.5)',
@@ -169,7 +169,7 @@ async function graphSA(){
     }
 
     let confirmedObj = {
-        label: 'Confirmed Covid-19 Cases',
+        label: 'Confirmed COVID-19 Cases',
         data: confirmedData,
         backgroundColor: ['rgba(0,0,0,0)'],
         borderColor: redBorder,
@@ -185,7 +185,7 @@ async function graphSA(){
     }
 
     let deathObj = {
-        label: 'Covid-19 Deaths',
+        label: 'COVID-19 Deaths',
         data: deathData,
         backgroundColor: ['rgba(0,0,0,0)'],
         borderColor: greyBorder,
@@ -193,7 +193,7 @@ async function graphSA(){
     }
 
     let activeObj = {
-        label: 'Active Covid-19 Cases',
+        label: 'Active COVID-19 Cases',
         data: activeData,
         backgroundColor: ['rgba(0,0,0,0)'],
         borderColor: goldBorder,
@@ -201,7 +201,7 @@ async function graphSA(){
     }
 
     let confirmedDailyObj = {
-        label: 'Confirmed Covid-19 Cases',
+        label: 'Confirmed COVID-19 Cases',
         data: confirmedDaily,
         backgroundColor: ['rgba(0,0,0,0)'],
         borderColor: redBorder,
@@ -217,7 +217,7 @@ async function graphSA(){
     }
 
     let deathDailyObj = {
-        label: 'Covid-19 Deaths',
+        label: 'COVID-19 Deaths',
         data: deathDaily,
         backgroundColor: ['rgba(0,0,0,0)'],
         borderColor: greyBorder,
@@ -225,7 +225,7 @@ async function graphSA(){
     }
 
     let activeDailyObj = {
-        label: 'Active Covid-19 Cases',
+        label: 'Active COVID-19 Cases',
         data: activeDaily,
         backgroundColor: ['rgba(0,0,0,0)'],
         borderColor: goldBorder,
@@ -390,7 +390,7 @@ async function graphSA(){
         }
     
         let confirmedObj = {
-            label: 'Confirmed Covid-19 Cases',
+            label: 'Confirmed COVID-19 Cases',
             data: confirmedData,
             backgroundColor: ['rgba(0,0,0,0)'],
             borderColor: redBorder,
@@ -398,7 +398,7 @@ async function graphSA(){
         }
     
         let recoveredObj = {
-            label: 'Recovered Covid-19 Cases',
+            label: 'Recovered COVID-19 Cases',
             data: recoveredData,
             backgroundColor: ['rgba(0,0,0,0)'],
             borderColor: blueBorder,
@@ -406,7 +406,7 @@ async function graphSA(){
         }
     
         let deathObj = {
-            label: 'Covid-19 Deaths',
+            label: 'COVID-19 Deaths',
             data: deathData,
             backgroundColor: ['rgba(0,0,0,0)'],
             borderColor: greyBorder,
@@ -414,7 +414,7 @@ async function graphSA(){
         }
     
         let activeObj = {
-            label: 'Active Covid-19 Cases',
+            label: 'Active COVID-19 Cases',
             data: activeData,
             backgroundColor: ['rgba(0,0,0,0)'],
             borderColor: goldBorder,
