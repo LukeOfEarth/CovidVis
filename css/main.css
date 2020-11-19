@@ -1,0 +1,44 @@
+*{
+    transition: display .35s ease-in-out;
+}
+.graph{
+    width: 50%;
+    margin: auto;
+    border: 3px solid #232323;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+.graph h1{
+    color: #0066ff;
+    text-align: center;
+}
+
+
+.btn{
+    margin:20px 20px 20px;
+    width: 35%;
+    padding: 10px;
+    border: 1px solid #0066ff;
+    border-radius: 2px;
+    background-color: #0066ff;
+    color: white;
+}
+
+.spacer{
+    width:30%;
+}
+
+.btn-container{
+    display: flex;
+}
+
+.btn:hover{
+    background-color:#0099ff;
+    border-color: #0099ff;
+}
+
+#inactive{
+    display: none;
+}

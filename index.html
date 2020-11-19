@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>CovidVis</title>
+
+  <!-- Chart.JS Library CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <p></p>
+  <!-- Graph 1 -->
+  <div class="graph">
+    <h1>Summary of total world-wide Covid-19 cases</h1>
+    <canvas id="summary" width="400" height="200"></canvas>
+  </div>
+  <!-- Graph 2 -->
+  <div class="graph">
+  <h1>Covid-19 case graph for South Africa</h1>
+    <div class="container"><canvas id="SAStats" width="400" height="200"></canvas></div>
+    <div class="container" id="inactive"><canvas id="SAStatsCount" width="400" height="200"></canvas></div>
+    <div class="btn-container">
+      <button class="btn" id="total">Total View</button>
+      <div class="spacer"></div>
+      <button class="btn" id="daily">Daily Count View</button>
+    </div>
+  </div>
+  <!-- Graph 3 -->
+  <div class="graph">
+    <h1>Projected Covid-19 case graph for South Africa in 2021</h1>
+    <canvas id="SAPrediction" width="400" height="200"></canvas>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>
