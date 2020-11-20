@@ -1,6 +1,4 @@
-let global = {};
-let saData = {};
-
+//Switching between graphs
 const totalBtn = document.getElementById('total');
 const dailyBtn = document.getElementById('daily');
 const localGraphs = document.getElementsByClassName('container');
@@ -19,20 +17,22 @@ dailyBtn.addEventListener('click',()=>{
     }
 });
 
+//Fetching data
 async function getGlobalData(dataURL){
     const response = await fetch(dataURL);
     const data = await response.json();
-    global = data.Global;
+    return data.Global;
 };
 
 async function getCountryData(dataURL){
     const response = await fetch(dataURL);
     const data = await response.json();
-    saData = data;
+    return data;
 };
 
+//Graphing global data
 async function graphGlobal(){
-    await getGlobalData('https://api.covid19api.com/summary')
+    let global = await getGlobalData('https://api.covid19api.com/summary')
     .catch(error => console.log(error));
 
     const sumGraph = document.getElementById('summary').getContext('2d');
@@ -89,24 +89,11 @@ async function graphGlobal(){
     });
 }
 
+//Graphing South Africa's data and graphing 2021 projection
 async function graphSA(){
-    await getCountryData('https://api.covid19api.com/dayone/country/south-africa')
+    let saData = await getCountryData('https://api.covid19api.com/dayone/country/south-africa')
     .catch(error => console.log(error));
     graphPrediction();
-    /*Fun with dates --> Extracting Dates as strings from JSON data, converting them to Dates and then back to strings (just for learning purposes - obviously it's dumb)
-                     --> Commenting it out for the more efficient method
-
-
-    let dateLabels = [];
-    for(let i=0;i<saData.length;i++){
-        let currentDate = saData[i].Date.split('T')[0].split('-');
-        let d = new Date(currentDate[0] +','+ currentDate[1] +',' +currentDate[2]);
-        let year = d.getFullYear();
-        let month = d.getMonth()+1;
-        let date = d.getDate();
-        let dateString = date+"/"+month+"/"+year;
-        dateLabels.push(dateString);
-    }*/
     
     let dateLabels = [];
     let confirmedData = [];
@@ -168,6 +155,7 @@ async function graphSA(){
         }
     }
 
+    //Creating data objects for GraphJS to use
     let confirmedObj = {
         label: 'Confirmed COVID-19 Cases',
         data: confirmedData,
@@ -232,9 +220,11 @@ async function graphSA(){
         borderWidth: 2
     }
     
+    //Packaging data objects as arrays for ease of use
     let dataArray = [confirmedObj,recoveredObj,deathObj,activeObj];
     let dailyArray = [confirmedDailyObj,recoveredDailyObj,deathDailyObj,activeDailyObj];
 
+    //GraphJS
     const saGraph = document.getElementById('SAStats').getContext('2d');
     let myLocalChart = new Chart(saGraph, {
         type: 'line',
@@ -271,13 +261,15 @@ async function graphSA(){
         }
     });
 
+    //Graphing predictions
     async function graphPrediction(){
         let confirmedArray = [];
         let recoveredArray = [];
         let deathsArray = [];
         let recoveredPerc = [];
         let deathPerc = [];
-    
+        
+        //Capturing data from last 60 days to use for averages/percentages
         for(let i=(saData.length-61);i<saData.length;i++){
             confirmedArray.push(saData[i].Confirmed-saData[i-1].Confirmed);
             recoveredArray.push(saData[i].Recovered-saData[i-1].Recovered);
@@ -286,20 +278,23 @@ async function graphSA(){
             recoveredPerc.push(((saData[i].Recovered-saData[i-1].Recovered)/saData[i].Active)*100);
             deathPerc.push(((saData[i].Deaths-saData[i-1].Deaths)/saData[i].Active)*100);
         }
-
-        let avgRecPerc = average(recoveredPerc);
-        let avgDeathPerc = average(deathPerc);
-        let avgRecDev = standardDeviation(recoveredPerc);
-        let avgDeathDev = standardDeviation(deathPerc);
     
         //Get Averages
         let confirmedAverage = Math.floor(average(confirmedArray));
         let recoveredAverage = Math.floor(average(recoveredArray));
         let deathAverage = Math.floor(average(deathsArray));
+
         //Get Standard Deviations
         let confirmedDev = Math.floor(standardDeviation(confirmedArray));
         let recoveredDev = Math.floor(standardDeviation(recoveredArray));
-        let deathDev = Math.floor(standardDeviation(deathsArray));   
+        let deathDev = Math.floor(standardDeviation(deathsArray)); 
+        
+        //Getting recovery and death percentages and standard deviation of those percentages
+        let avgRecPerc = average(recoveredPerc);
+        let avgDeathPerc = average(deathPerc);
+        let avgRecDev = standardDeviation(recoveredPerc);
+        let avgDeathDev = standardDeviation(deathPerc);
+
         //Get Number of days for graphing
         let today = new Date();
         let endDate = new Date('12/31/2021');
@@ -313,11 +308,13 @@ async function graphSA(){
         let dates = [];
         let nextDay = new Date();
 
+        //Getting current case totals as starting point for predictions
         let curConfirmed = saData[saData.length-1].Confirmed;
         let curRecovered = saData[saData.length-1].Recovered;
         let curDeaths = saData[saData.length-1].Deaths;
         let curActive = saData[saData.length-1].Active;
-    
+        
+        //Creating arrays to store colours for graph
         let redBorder = [];
         let blueBorder = [];
         let greyBorder = [];
@@ -388,7 +385,8 @@ async function graphSA(){
                 goldBorder.push('rgba(0,0,0,0)');
             }
         }
-    
+        
+        //Creating data objects for GraphJS to use
         let confirmedObj = {
             label: 'Confirmed COVID-19 Cases',
             data: confirmedData,
@@ -420,9 +418,11 @@ async function graphSA(){
             borderColor: goldBorder,
             borderWidth: 2
         }
-    
+        
+        //Packaging data objects in array for ease of use
         let dataArray = [confirmedObj,recoveredObj,deathObj,activeObj];
-    
+        
+        //GraphJS
         const predGraph = document.getElementById('SAPrediction').getContext('2d');
         const myPredChart = new Chart(predGraph, {
             type: 'line',
@@ -443,9 +443,11 @@ async function graphSA(){
     } 
 }
 
+//Calling funtions to draw graphs
 graphGlobal();
 graphSA();
 
+//Gets standard deviation of array values
 function standardDeviation(values){
     let avg = average(values);
     
@@ -461,6 +463,7 @@ function standardDeviation(values){
     return stdDev;
 }
   
+//Gets average of array values
 function average(data){
     let sum = data.reduce(function(sum, value){
       return sum + value;
@@ -470,6 +473,7 @@ function average(data){
     return avg;
 }
 
+//Gets a random ineger between two numbers
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min;
 }
